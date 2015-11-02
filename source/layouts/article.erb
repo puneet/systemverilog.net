@@ -1,0 +1,121 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <%= partial "head" %>    
+  <body class="article <%= page_classes %>">    
+    <%= partial "nav" %>  
+    <%= image_tag(current_article.data.banner, id: 'banner') if current_article.data.banner %>
+    <%= partial "header" %>    
+    <div id="main" role="main">
+      <% 
+        content = Nokogiri::HTML(yield)
+        sidebar_content = content.xpath("//div[contains(@class, 'sidebar-section')]").remove
+      %>
+      <article>
+        <header class="article-header">
+          <h1><%= current_article.data.title %></h1>   
+          <% if current_article.data.subtitle %>
+            <h2 class="subtitle"><%= current_article.data.subtitle %></h2>  
+          <% end %>     
+        </header>	
+        <div class="article-wrap row">
+          <div class="col-sm-8 columns">  
+            <div class="content blog-content">
+              <%= content %>  
+            </div>
+         </div>
+          <div class="col-sm-4 columns">
+            <div class="sidebar blog-sidebar">
+              <%= sidebar_content %>
+	      <div class="author author-info">
+		<h4>About the Author</h4>
+		<% author = find_author(current_article.data.author) %>
+		<img alt = <%= author.name %>
+		     src='<%= get_gravatar author.email %>' class='headshot' >
+		<dl>
+		  <dt>Name:</dt>
+		  <dd><%= author.name %></dd>
+		</dl>
+		<dl>
+		  <dt>Github:</dt>
+		  <dd><a href='https://github.com/<%= author.github %>'><%= author.github %></a>
+		  </dd>
+		</dl>
+	      </div>
+	      <div class="post-info">
+		<h4>About this Article</h4>
+		<dl>
+		  <dt>Published on:</dt>
+		  <time class="updated" datetime="<%= current_article.date.strftime('%b %e %Y') %>"><%= current_article.date.strftime('%b %e %Y') %></time>
+		</dl>
+		<%= partial "social" %>
+	      </div>
+              <div class="sidebar-section tags">
+                <h4>Tags</h4>
+                <%= tag_list(current_article) %>
+              </div>
+              <!-- <div class="sidebar-section ad ad-300x250 sidebar-float"> -->
+              <!--   <\!--<h4>Advertisment</h4>-\-> -->
+              <!--   <\!-- Coverify (Skyscraper) -\-> -->
+              <!--   <ins class="adsbygoogle" -->
+              <!--        style="display:inline-block;width:300px;height:600px" -->
+              <!--        data-ad-client="ca-pub-1397369873900370" -->
+              <!--        data-ad-slot="7510590887"></ins> -->
+              <!--   <script> -->
+              <!--   (adsbygoogle = window.adsbygoogle || []).push({}); -->
+              <!--   </script> -->
+
+              <!--   <\!-- Coverify (MRec) -->
+              <!--   <ins class="adsbygoogle" -->
+              <!--        style="display:inline-block;width:300px;height:250px" -->
+              <!--        data-ad-client="ca-pub-1397369873900370" -->
+              <!--        data-ad-slot="3472500885"></ins> -->
+              <!--   <script> -->
+              <!--   (adsbygoogle = window.adsbygoogle || []).push({}); -->
+              <!--   </script> -->
+              <!--   -\-> -->
+              <!-- </div> -->
+
+              <!--
+              <div id="rotate-article">
+                <% if current_article.next_article %>
+                  <%= link_to 'next article &rarr;', current_article.next_article, { class: 'next' } %>
+                <% end %>
+                <% if current_article.previous_article %>
+                  <%= link_to '&larr; previous article', current_article.previous_article, { class: 'prev' } %>
+                <% end %>
+              </div>
+              -->
+
+          </div>
+        </div>   
+        <!--  
+        <div class="meta">
+          Posted on <time class="updated" datetime="<%= current_article.date.strftime('%b %e %Y') %>"><%= current_article.date.strftime('%b %e %Y') %></time> by 
+          <% if current_article.data.author_site %>
+            <%= link_to current_article.data.author, current_article.data.author_site, rel: 'author external' %>
+          <% else %>
+            <%= current_article.data.author %>
+          <% end %>. Tagged: <%= current_article.tags.join(', ') %>.
+        </div>
+        -->
+      </article>
+
+      <!-- <div class="row show-for-large-up"> -->
+      <!--   <div class="ad ad-720x90 text-center"> -->
+      <!--     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+      <!--     <\!-- Coverify (Leaderboard) -\-> -->
+      <!--     <ins class="adsbygoogle" -->
+      <!--          style="display:inline-block;width:728px;height:90px" -->
+      <!--          data-ad-client="ca-pub-1397369873900370" -->
+      <!--          data-ad-slot="8042301285"></ins> -->
+      <!--     <script> -->
+      <!--     (adsbygoogle = window.adsbygoogle || []).push({}); -->
+      <!--     </script> -->
+      <!--   </div> -->
+      <!-- </div> -->
+	       
+      <%= partial "comments" %>  
+    </div>
+    <%= partial "footer" %>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+    "name": "systemverilog.net",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+	"bootstrap-css": "latest",
+	"jquery": "latest",
+	"socialite-js": "latest",
+	"components-font-awesome": "latest"
+    },
+    "homepage": "https://github.com/coverify/systemverilog.net",
+    "authors": [
+	"Puneet Goel <puneet@coverify.com>"
+    ],
+    "description": "Coverify Website",
+    "license": "MIT",
+    "ignore": [
+	"**/.*",
+	"node_modules",
+	"bower_components",
+	"source/bower_components",
+	"test",
+	"tests"
+    ]
+}

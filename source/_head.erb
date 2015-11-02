@@ -1,0 +1,26 @@
+
+  <head>
+    <title><%= current_page.url == '/' ? "SystemVerilog" : "#{data.page.title} | SystemVerilog" %></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="google-site-verification" content="lC7-hHwqtiRqo7YTHc1fJ6t8ie-Hs7J4o5u3XRIF9Vw" /> -->
+    <%= feed_tag :atom, "feed.xml", title: "Atom Feed" %>
+    <%= stylesheet_link_tag "app" %>
+    <%= javascript_include_tag "all" %>
+
+    <!-- Google Adsense -->
+    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+    
+    <!-- Google Universal Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-49525939-4', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</head>
+  
