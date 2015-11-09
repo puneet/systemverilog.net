@@ -36,6 +36,10 @@ a:hover {
    padding: 0 15px;
 }
 
+.navbar-brand > img{
+   margin-top: 5px;
+}
+
 .navbar-left > li > a {
    text-transform: uppercase;
    padding-top: 15px;
@@ -912,7 +916,7 @@ body.article .social-buttons li {
   float: left;
 }
 
-.vlang #main #about {
+.index #main #about {
    font-size: 24px;
    margin-bottom: 32px;
 }
