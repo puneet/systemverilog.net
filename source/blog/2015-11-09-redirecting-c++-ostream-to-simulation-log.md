@@ -6,9 +6,10 @@ author: geeta
 tags: vpi_printf, DPI, C++
 author_site: http://coverify.com
 ---
-Reference models used in functional verification are often written in C++. Such models are integrated in systemverilog testbenches using DPI. When coding in C++ you want to use streaming operator to print messages or errors. When `std::cout` is used the output goes on terminal and not in the log file. Verilog PLI provides `vpi_printf` to get the output on the terminal. To make it compatible with streaming operator, create a wrapper in C++ as given below:
+Reference models used in functional verification are often written in C++. Such models are integrated in systemverilog testbenches using DPI. When coding in C++ you want to use streaming operator to print messages or errors. When `std::cout` is used the output goes to the terminal but not in the log file. Verilog PLI provides function `vpi_printf`, which has `printf` like functionality, but send the output to verilog log file as well. To make it compatible with streaming output operator, we can create a wrapper in C++:
 
 ```cpp
+// File dpi_logger.h
 #include <sstream>
 #include "vpi_user.h"
 class Logger: public std::ostream
@@ -38,30 +39,40 @@ class Logger: public std::ostream
     _buffer()
   { }
  public:
-  static Logger& log() {
+  static Logger& instance() {
     if(_logger == NULL) {
       _logger = new Logger();
     }
     return *_logger;
   }
+  template<typename Z>
+  static Logger& operator<<(Z obj) {
+    this->instance() << obj;
+    return *_logger;
+  }
 };
 ```
 
-You can test the functinality by making a function (foo) in C++ which uses the wrapper:
+To use the Logger, send the output to the singleton Logger instance:
 
 ```cpp
 #include <iostream>
 #include <stdio.h>
 #include "dpi_logger.h"
+
+// static variable instance
+// This should be moved to dpi_logger.cpp in real world
+Logger* Logger::_logger;
+
+// Logger Usage
 extern "C" void  foo()
 {
-  std::cout << "using cout" << std::endl;
-  Logger::log() << "Inside foo function" << std::endl;
+  std::cout << "Message using std::cout" << std::endl;
+  Logger << "Message using Logger" << std::endl;
 }
-Logger* Logger::_logger;
 ```
 
-The following code illustrates its usage. Make a  dpi call inside systemverilog program block, and call foo function:
+To test the code, we make a  dpi call inside systemverilog program block:
 
 ```systemverilog
 program logger_test();
@@ -71,5 +82,5 @@ program logger_test();
        $display("program block: Interacting with dpi");
        foo();
      end
-endprogram // dpi_test
+endprogram: logger_test
 ```
