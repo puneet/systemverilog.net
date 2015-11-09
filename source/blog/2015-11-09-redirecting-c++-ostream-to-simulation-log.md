@@ -24,8 +24,8 @@ class Logger: public std::ostream
       std::stringstream oss;
       std::string prefix = "[CPP_MODEL";
       for (std::string line; std::getline(iss, line); ) {
-	oss << prefix << "] ";
-	oss << line << "\n";
+        oss << prefix << "] ";
+        oss << line << "\n";
       }
       vpi_printf((char*) oss.str().c_str());
       str("");
