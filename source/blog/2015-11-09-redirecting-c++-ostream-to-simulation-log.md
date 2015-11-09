@@ -38,16 +38,11 @@ class Logger: public std::ostream
     std::ostream(&_buffer),
     _buffer()
   { }
- public:
+public:
   static Logger& instance() {
     if(_logger == NULL) {
       _logger = new Logger();
     }
-    return *_logger;
-  }
-  template<typename Z>
-  static Logger& operator<<(Z obj) {
-    this->instance() << obj;
     return *_logger;
   }
 };
@@ -67,8 +62,10 @@ Logger* Logger::_logger;
 // Logger Usage
 extern "C" void  foo()
 {
+  Logger& log = Logger::instance();
+
   std::cout << "Message using std::cout" << std::endl;
-  Logger << "Message using Logger" << std::endl;
+  log << "Message using Logger" << std::endl;
 }
 ```
 
